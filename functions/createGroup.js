@@ -11,7 +11,7 @@ const createVisit = functions.https.onCall(async (data, context) => {
     );
   }
   try {
-    const doc = await db.collection("visit").add({
+    const doc = await db.collection("group").add({
       name: data.name,
       description: data.description,
       transactoins: [],
