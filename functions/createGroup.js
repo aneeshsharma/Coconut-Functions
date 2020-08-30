@@ -18,6 +18,7 @@ const createVisit = functions.https.onCall(async (data, context) => {
             transactions: [],
             users: data.users,
         });
+        console.log(groupDoc.id);
         // add group to all users
         const userDocUpdates = data.users.map((userId) => {
             return db.doc(`users/${userId}`).update({

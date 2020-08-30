@@ -8,7 +8,7 @@ const endTrip = functions.https.onCall(async (data, context) => {
     const group = data.groupId;
     const docRef = db.collection("group").doc(group);
     try {
-        const groupData = await docRef.get();
+        const groupData = await (await docRef.get()).data();
         const transactions = groupData.transactions;
         const users = groupData.users;
         const creds = {};
@@ -16,15 +16,16 @@ const endTrip = functions.https.onCall(async (data, context) => {
             const spender = transaction.spender;
             const amount = transaction.amount;
             users.forEach((user) => {
-                var c = creds[user];
+                var c = creds[user] || 0;
                 if (user === spender) {
-                    c += amount;
+                    c += Number(amount);
                 } else {
                     c -= amount / (users.length - 1);
                 }
                 creds[user] = c;
             });
         });
+        console.log(creds);
 
         var posQueue = [];
         var negQueue = [];
@@ -36,13 +37,49 @@ const endTrip = functions.https.onCall(async (data, context) => {
             }
         }
         posQueue.sort((a, b) => {
-            return a.cred - b.cred;
-        });
-        negQueue.sort((a, b) => {
             return b.cred - a.cred;
         });
-        console.log(posQueue);
-        console.log(negQueue);
+        negQueue.sort((a, b) => {
+            return a.cred - b.cred;
+        });
+
+        var payments = [];
+        var p = 0;
+        var n = 0;
+        while (p < posQueue.length && n < negQueue.length) {
+            if (posQueue[p].cred >= -negQueue[n].cred) {
+                posQueue[p].cred += negQueue[n].cred;
+                const amount = -negQueue[n].cred;
+                negQueue[n].cred = 0;
+                payments.push({
+                    from: negQueue[n].uid,
+                    to: posQueue[p].uid,
+                    amount,
+                });
+                n++;
+                if (posQueue[p].cred <= 0.01) {
+                    p++;
+                }
+            } else {
+                negQueue[n].cred += posQueue[p].cred;
+                const amount = posQueue[p].cred;
+                posQueue[p].cred = 0;
+                payments.push({
+                    from: negQueue[n].uid,
+                    to: posQueue[p].uid,
+                    amount,
+                });
+                p++;
+                if (negQueue[n].cred <= 0.01) {
+                    n++;
+                }
+            }
+        }
+        console.log(payments);
+        const doc = await db.collection("group").doc(group).update({
+            payments: payments,
+        });
+        return { message: "Ended" };
     } catch (e) {
         throw new functions.https.HttpsError("internal", e.message);
     }

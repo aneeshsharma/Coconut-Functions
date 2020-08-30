@@ -3,7 +3,7 @@ content-type: application/json
 
 {
     "data": {
-        "uid": "test4",
+        "uid": "test1",
         "name": "Test User 4",
         "upiId": "test4@nobank",
         "email": "test4@example.com"
@@ -46,7 +46,21 @@ content-type: application/json
 
 {
     "data": {
-        "spender": "test1",
-        "amount": "30"
+        "groupId": "pDMDue0T1093rorGP1ie",
+        "transaction": {
+            "spender": "test1",
+            "amount": "70"
+        }
+    }
+}
+
+###
+
+POST http://localhost:5001/coconut-c4b2e/us-central1/endTrip HTTP/1.1
+Content-Type: application/json
+
+{
+    "data": {
+        "groupId": "pDMDue0T1093rorGP1ie"
     }
 }
