@@ -1,0 +1,12 @@
+POST http://localhost:5001/coconut-c4b2e/us-central1/login HTTP/1.1
+content-type: application/json
+
+{
+    "uid": "test",
+    "name": "Test User",
+    "upiId": "test@nobank"
+}
+
+###
+
+GET http://localhost:5001/coconut-c4b2e/us-central1/getUser?uid=test2 HTTP/1.1
