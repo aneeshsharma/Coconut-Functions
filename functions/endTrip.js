@@ -4,6 +4,12 @@ const admin = require("firebase-admin");
 const db = admin.firestore();
 
 const endTrip = functions.https.onCall(async (data, context) => {
+    if (!context.auth) {
+        throw new functions.https.HttpsError(
+            "failed-precondition",
+            "The function must be called while authenticated."
+        );
+    }
     const uid = data.uid;
     const group = data.groupId;
     const docRef = db.collection("group").doc(group);
