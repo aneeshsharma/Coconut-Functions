@@ -3,10 +3,10 @@ content-type: application/json
 
 {
     "data": {
-        "uid": "test2",
-        "name": "Test User 2",
-        "upiId": "test2@nobank",
-        "email": "test2@example.com"
+        "uid": "test4",
+        "name": "Test User 4",
+        "upiId": "test4@nobank",
+        "email": "test4@example.com"
     }
 }
 
@@ -18,5 +18,35 @@ content-type: application/json
 {
     "data": {
         "uid": "test2"
+    }
+}
+
+###
+
+POST http://localhost:5001/coconut-c4b2e/us-central1/createGroup HTTP/1.1
+content-type: application/json
+
+{
+    "data": {
+        "name": "Test group",
+        "description": "A test group",
+        "users": [
+            "test1",
+            "test2",
+            "test3",
+            "test4"
+        ]
+    }
+}
+
+###
+
+POST http://localhost:5001/coconut-c4b2e/us-central1/addTransaction HTTP/1.1
+content-type: application/json
+
+{
+    "data": {
+        "spender": "test1",
+        "amount": "30"
     }
 }
