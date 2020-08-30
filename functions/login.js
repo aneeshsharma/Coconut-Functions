@@ -4,22 +4,22 @@ const admin = require("firebase-admin");
 const db = admin.firestore();
 
 const login = functions.https.onCall(async (data, context) => {
-    console.log(req.body);
+    console.log(data);
     const uid = data.uid;
     const docRef = db.collection("users").doc(uid);
     const user = await docRef.get();
     if (user.exists) {
         console.log("User exists");
-        return user.data();
+        return { message: "exists" };
     } else {
         try {
-            const doc = await db.collection("users").add({
+            await docRef.set({
                 uid: uid,
                 name: data.name,
                 upiId: data.upiId,
                 email: data.email,
             });
-            return doc;
+            return (await docRef.get()).data();
         } catch (e) {
             throw new functions.https.HttpsError("internal", e.message);
         }

@@ -4,6 +4,8 @@ admin.initializeApp();
 
 const login = require("./functions/login");
 const getUser = require("./functions/getUser");
+const addTransaction = require("./functions/addTransaction");
+const createGroup = require("./functions/createGroup");
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -16,4 +18,6 @@ const getUser = require("./functions/getUser");
 module.exports = {
     login,
     getUser,
+    addTransaction,
+    createGroup,
 };

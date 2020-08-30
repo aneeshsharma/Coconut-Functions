@@ -2,9 +2,12 @@ POST http://localhost:5001/coconut-c4b2e/us-central1/login HTTP/1.1
 content-type: application/json
 
 {
-    "uid": "test",
-    "name": "Test User",
-    "upiId": "test@nobank"
+    "data": {
+        "uid": "test2",
+        "name": "Test User 2",
+        "upiId": "test2@nobank",
+        "email": "test2@example.com"
+    }
 }
 
 ###
