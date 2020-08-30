@@ -7,6 +7,7 @@ const getUser = require("./functions/getUser");
 const addTransaction = require("./functions/addTransaction");
 const createGroup = require("./functions/createGroup");
 const endTrip = require("./functions/endTrip");
+const joinGroup = require("./functions/joinGroup");
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -22,4 +23,5 @@ module.exports = {
     addTransaction,
     createGroup,
     endTrip,
+    joinGroup,
 };
