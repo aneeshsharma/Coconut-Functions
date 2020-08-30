@@ -11,13 +11,21 @@ const createVisit = functions.https.onCall(async (data, context) => {
     );
   }
   try {
-    const doc = await db.collection("group").add({
+    // create the group
+    const groupDoc = await db.collection("group").add({
       name: data.name,
       description: data.description,
       transactoins: [],
-      users: data.users,
+      users: data.users.map((uid) => ({ uid, credit: 0 })),
     });
-    return doc;
+    // add group to all users
+    const userDocUpdates = data.users.map((userId) => {
+      return db.doc(`users/${userId}`).update({
+        groups: admin.firestore.FieldValue.arrayUnion(groupDoc.id),
+      });
+    });
+    await Promise.all(userDocUpdates);
+    return groupDoc;
   } catch (e) {
     throw new functions.https.HttpsError("internal", e.message);
   }
