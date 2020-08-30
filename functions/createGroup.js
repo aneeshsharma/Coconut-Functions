@@ -16,7 +16,7 @@ const createVisit = functions.https.onCall(async (data, context) => {
       name: data.name,
       description: data.description,
       transactoins: [],
-      users: data.users.map((uid) => ({ uid, credit: 0 })),
+      users: data.users,
     });
     // add group to all users
     const userDocUpdates = data.users.map((userId) => {
