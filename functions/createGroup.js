@@ -15,7 +15,7 @@ const createVisit = functions.https.onCall(async (data, context) => {
     const groupDoc = await db.collection("group").add({
       name: data.name,
       description: data.description,
-      transactoins: [],
+      transactions: [],
       users: data.users,
     });
     // add group to all users
