@@ -11,14 +11,15 @@ const createVisit = functions.https.onCall(async (data, context) => {
     );
   }
   try {
-    db.collection("visit").add({
+    const doc = await db.collection("visit").add({
       name: data.name,
       description: data.description,
       transactoins: [],
       users: data.users,
     });
+    return doc;
   } catch (e) {
-    res.send(e.message);
+    throw new functions.https.HttpsError("internal", e.message);
   }
 });
 module.exports = createVisit;
