@@ -3,22 +3,26 @@ const admin = require("firebase-admin");
 
 const db = admin.firestore();
 
-const getUser = functions.https.onRequest(async (req, res) => {
-    console.log(req.query.uid);
-    const uid = req.query.uid;
+const getUser = functions.https.onCall(async (data, context) => {
+    if (!context.auth) {
+        throw new functions.https.HttpsError(
+            "failed-precondition",
+            "The function must be called while authenticated."
+        );
+    }
+    console.log(data.uid);
+    const uid = data.uid;
     const docRef = db.collection("users").doc(uid);
     const doc = await docRef.get();
     if (!doc.exists) {
         console.log("No user found");
-        res.status(400).json({
-            message: "Invalid ID",
-        });
+        throw new functions.https.HttpsError(
+            "not-found",
+            "No user with given uid"
+        );
     } else {
         const user = doc.data();
-        res.status(200).json({
-            message: "Done",
-            user: user,
-        });
+        return user;
     }
 });
 
