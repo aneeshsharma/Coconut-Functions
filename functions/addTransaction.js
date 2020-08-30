@@ -16,6 +16,9 @@ const addTransaction = functions.https.onCall(async (data, context) => {
             transactions: admin.firestore.FieldValue.arrayUnion(
                 data.transaction
             ),
+            users: admin.firestore.FieldValue.arrayUnion(
+                data.transaction.spender
+            ),
         });
         return doc;
     } catch (e) {
