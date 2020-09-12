@@ -3,7 +3,7 @@ content-type: application/json
 
 {
     "data": {
-        "uid": "test4",
+        "uid": "test5",
         "name": "Test User 4",
         "upiId": "test4@nobank",
         "email": "test4@example.com"
@@ -49,6 +49,18 @@ content-type: application/json
             "test3",
             "test4"
         ]
+    }
+}
+
+###
+
+POST http://localhost:5001/coconut-c4b2e/us-central1/joinGroup HTTP/1.1
+content-type: application/json
+
+{
+    "data": {
+        "uid": "test5",
+        "groupId": "jwlMXJImKaQB2s5RPsun"
     }
 }
 
