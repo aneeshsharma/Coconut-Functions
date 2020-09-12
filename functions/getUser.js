@@ -23,7 +23,7 @@ const getUser = functions.https.onCall(async (data, context) => {
     } else {
         var userData = doc.data();
         var groups = userData.groups;
-
+        /* eslint-disable no-await-in-loop */
         if (groups && groups.length > 0) {
             var groupsExpanded = [];
             for (var groupId of groups) {
@@ -44,6 +44,7 @@ const getUser = functions.https.onCall(async (data, context) => {
             }
             userData.groups = groupsExpanded;
         }
+        /* eslint-enable no-await-in-loop */
         return userData;
     }
 });

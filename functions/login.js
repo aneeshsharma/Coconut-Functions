@@ -12,7 +12,7 @@ const login = functions.https.onCall(async (data, context) => {
         console.log("User exists");
         var userData = user.data();
         var groups = userData.groups;
-
+        /* eslint-disable no-await-in-loop */
         if (groups && groups.length > 0) {
             var groupsExpanded = [];
             for (var groupId of groups) {
@@ -33,6 +33,7 @@ const login = functions.https.onCall(async (data, context) => {
             }
             userData.groups = groupsExpanded;
         }
+        /* eslint-enable no-await-in-loop */
         return userData;
     } else {
         try {

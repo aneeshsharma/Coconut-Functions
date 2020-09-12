@@ -21,10 +21,12 @@ const joinGroup = functions.https.onCall(async (data, context) => {
         var groupData = (await groupDoc.get()).data();
         if (groupData.users && groupData.users.length > 0) {
             var usersExpanded = [];
+            /* eslint-disable no-await-in-loop */
             for (var userId of groupData.users) {
                 const userData = (await db.doc(`users/${userId}`).get()).data();
                 usersExpanded.push(userData);
             }
+            /* eslint-enable no-await-in-loop */
             groupData.users = usersExpanded;
         }
         groupData.groupId = data.groupId;
