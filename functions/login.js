@@ -18,6 +18,7 @@ const login = functions.https.onCall(async (data, context) => {
                 name: data.name,
                 upiId: data.upiId,
                 email: data.email,
+                profilePic: data.profilePic || "",
             });
             return (await docRef.get()).data();
         } catch (e) {
