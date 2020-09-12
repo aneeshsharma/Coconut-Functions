@@ -10,7 +10,30 @@ const login = functions.https.onCall(async (data, context) => {
     const user = await docRef.get();
     if (user.exists) {
         console.log("User exists");
-        return { message: "exists" };
+        var userData = user.data();
+        var groups = userData.groups;
+
+        if (groups && groups.length > 0) {
+            var groupsExpanded = [];
+            for (var groupId of groups) {
+                const group = await db.doc(`group/${groupId}`).get();
+                var groupData = group.data();
+                if (groupData.users && groupData.users.length > 0) {
+                    var usersExpanded = [];
+                    for (var userId of groupData.users) {
+                        const userData = (
+                            await db.doc(`users/${userId}`).get()
+                        ).data();
+                        usersExpanded.push(userData);
+                    }
+                    groupData.users = usersExpanded;
+                }
+                groupData.groupId = groupId;
+                groupsExpanded.push(groupData);
+            }
+            userData.groups = groupsExpanded;
+        }
+        return userData;
     } else {
         try {
             await docRef.set({

@@ -21,8 +21,30 @@ const getUser = functions.https.onCall(async (data, context) => {
             "No user with given uid"
         );
     } else {
-        const user = doc.data();
-        return user;
+        var userData = doc.data();
+        var groups = userData.groups;
+
+        if (groups && groups.length > 0) {
+            var groupsExpanded = [];
+            for (var groupId of groups) {
+                const group = await db.doc(`group/${groupId}`).get();
+                var groupData = group.data();
+                if (groupData.users && groupData.users.length > 0) {
+                    var usersExpanded = [];
+                    for (var userId of groupData.users) {
+                        const userData = (
+                            await db.doc(`users/${userId}`).get()
+                        ).data();
+                        usersExpanded.push(userData);
+                    }
+                    groupData.users = usersExpanded;
+                }
+                groupData.groupId = groupId;
+                groupsExpanded.push(groupData);
+            }
+            userData.groups = groupsExpanded;
+        }
+        return userData;
     }
 });
 
