@@ -15,7 +15,7 @@ const updateUser = functions.https.onCall(async (data, context) => {
     try {
         const docRef = db.collection("users").doc(uid);
         const result = await docRef.update({ upiId: data.upiId });
-        return result;
+        return data.upiId;
     } catch (err) {
         throw new functions.https.HttpsError("internal", err.message);
     }
