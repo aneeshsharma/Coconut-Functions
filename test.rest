@@ -3,12 +3,25 @@ content-type: application/json
 
 {
     "data": {
-        "uid": "test1",
+        "uid": "test2",
         "name": "Test User 4",
         "upiId": "test4@nobank",
         "email": "test4@example.com"
     }
 }
+
+###
+
+POST http://localhost:5001/coconut-c4b2e/us-central1/updateUser HTTP/1.1
+content-type: application/json
+
+{
+    "data": {
+        "uid": "test2",
+        "upiId": "test3@nobank"
+    }
+}
+
 
 ###
 
