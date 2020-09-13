@@ -18,7 +18,21 @@ const getGroup = functions.https.onCall(async (data, context) => {
                 "Invalid group id"
             );
         } else {
-            return doc.data();
+            var groupData = doc.data();
+            if (groupData.users && groupData.users.length > 0) {
+                var usersExpanded = [];
+                /* eslint-disable no-await-in-loop */
+                for (var userId of groupData.users) {
+                    const userData = (
+                        await db.doc(`users/${userId}`).get()
+                    ).data();
+                    usersExpanded.push(userData);
+                }
+                /* eslint-enable no-await-in-loop */
+                groupData.users = usersExpanded;
+            }
+            groupData.groupId = data.groupId;
+            return groupData;
         }
     } catch (e) {
         throw new functions.https.HttpsError("internal", e.message);

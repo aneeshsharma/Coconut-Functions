@@ -60,7 +60,7 @@ content-type: application/json
 {
     "data": {
         "uid": "test5",
-        "groupId": "jwlMXJImKaQB2s5RPsun"
+        "groupId": "magjXo3uE7F3Utz6uIVj"
     }
 }
 
@@ -71,10 +71,10 @@ content-type: application/json
 
 {
     "data": {
-        "groupId": "jwlMXJImKaQB2s5RPsun",
+        "groupId": "magjXo3uE7F3Utz6uIVj",
         "transaction": {
-            "spender": "test3",
-            "amount": "120"
+            "spender": "test1",
+            "amount": "233"
         }
     }
 }
@@ -86,6 +86,17 @@ Content-Type: application/json
 
 {
     "data": {
-        "groupId": "jwlMXJImKaQB2s5RPsun"
+        "groupId": "magjXo3uE7F3Utz6uIVj"
+    }
+}
+
+###
+
+POST http://localhost:5001/coconut-c4b2e/us-central1/getGroup HTTP/1.1
+Content-Type: application/json
+
+{
+    "data": {
+        "groupId": "magjXo3uE7F3Utz6uIVj"
     }
 }

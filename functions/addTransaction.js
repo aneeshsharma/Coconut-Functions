@@ -11,13 +11,38 @@ const addTransaction = functions.https.onCall(async (data, context) => {
             "The function must be called while authenticated."
         );
     }
+    const groupDoc = db.doc(`group/${data.groupId}`);
     try {
-        const doc = await db.doc(`group/${data.groupId}`).update({
+        await groupDoc.update({
             transactions: admin.firestore.FieldValue.arrayUnion(
                 data.transaction
             ),
         });
-        return doc;
+        var groupData = (await groupDoc.get()).data();
+        var users = groupData.users;
+        var transactions = groupData.transactions;
+
+        var creds = {};
+        transactions.forEach((transaction) => {
+            const spender = transaction.spender;
+            const amount = transaction.amount;
+            users.forEach((user) => {
+                var c = creds[user] || 0;
+                if (user === spender) {
+                    c += Number(amount);
+                } else {
+                    c -= amount / (users.length - 1);
+                }
+                creds[user] = c;
+            });
+        });
+        console.log(creds);
+
+        await groupDoc.update({
+            credits: creds,
+        });
+
+        return (await groupDoc.get()).data();
     } catch (e) {
         throw new functions.https.HttpsError("internal", e.message);
     }

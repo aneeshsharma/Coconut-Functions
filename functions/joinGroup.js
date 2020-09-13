@@ -4,12 +4,12 @@ const admin = require("firebase-admin");
 const db = admin.firestore();
 
 const joinGroup = functions.https.onCall(async (data, context) => {
-    // if (!context.auth) {
-    //     throw new functions.https.HttpsError(
-    //         "failed-precondition",
-    //         "The function must be called while authenticated."
-    //     );
-    // }
+    if (!context.auth) {
+        throw new functions.https.HttpsError(
+            "failed-precondition",
+            "The function must be called while authenticated."
+        );
+    }
     try {
         const groupDoc = db.doc(`group/${data.groupId}`);
         await groupDoc.update({

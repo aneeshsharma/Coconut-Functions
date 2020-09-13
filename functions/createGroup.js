@@ -26,7 +26,7 @@ const createVisit = functions.https.onCall(async (data, context) => {
             });
         });
         await Promise.all(userDocUpdates);
-        return groupDoc;
+        return groupDoc.id;
     } catch (e) {
         throw new functions.https.HttpsError("internal", e.message);
     }
