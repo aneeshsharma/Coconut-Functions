@@ -76,16 +76,18 @@ const endTrip = functions.https.onCall(async (data, context) => {
                     amount,
                 });
                 p++;
-                if (negQueue[n].cred <= 0.01) {
+                if (-negQueue[n].cred <= 0.01) {
                     n++;
                 }
             }
         }
         console.log(payments);
+        console.log(posQueue);
+        console.log(negQueue);
         const doc = await db.collection("group").doc(group).update({
             payments: payments,
         });
-        return { message: "Ended" };
+        return (await db.collection("group").doc(group).get()).data();
     } catch (e) {
         throw new functions.https.HttpsError("internal", e.message);
     }
