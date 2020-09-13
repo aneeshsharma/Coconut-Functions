@@ -13,6 +13,8 @@ const addTransaction = functions.https.onCall(async (data, context) => {
     }
     const groupDoc = db.doc(`group/${data.groupId}`);
     try {
+        var transaction = data.transaction;
+        transaction.time = new Date().toISOString();
         await groupDoc.update({
             transactions: admin.firestore.FieldValue.arrayUnion(
                 data.transaction
