@@ -46,8 +46,7 @@ content-type: application/json
         "users": [
             "test1",
             "test2",
-            "test3",
-            "test4"
+            "test3"
         ]
     }
 }
@@ -59,8 +58,8 @@ content-type: application/json
 
 {
     "data": {
-        "uid": "test5",
-        "groupId": "magjXo3uE7F3Utz6uIVj"
+        "uid": "test4",
+        "groupId": "kaMqQPNHtkLOrVGMlLYe"
     }
 }
 
@@ -97,6 +96,6 @@ Content-Type: application/json
 
 {
     "data": {
-        "groupId": "magjXo3uE7F3Utz6uIVj"
+        "groupId": "kaMqQPNHtkLOrVGMlLYe"
     }
 }

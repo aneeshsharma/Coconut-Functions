@@ -12,11 +12,16 @@ const createVisit = functions.https.onCall(async (data, context) => {
     }
     try {
         // create the group
+        var creds = {};
+        for (var user of data.users) {
+            creds[user] = 0;
+        }
         const groupDoc = await db.collection("group").add({
             name: data.name,
             description: data.description,
             transactions: [],
             users: data.users,
+            credits: creds,
         });
         console.log(groupDoc.id);
         // add group to all users

@@ -12,13 +12,20 @@ const joinGroup = functions.https.onCall(async (data, context) => {
     }
     try {
         const groupDoc = db.doc(`group/${data.groupId}`);
+        var groupData = (await groupDoc.get()).data();
+        var creds = groupData.credits;
+        if (!creds) {
+            creds = {};
+        }
+        creds[data.uid] = 0;
         await groupDoc.update({
             users: admin.firestore.FieldValue.arrayUnion(data.uid),
+            credits: creds,
         });
         await db.doc(`users/${data.uid}`).update({
             groups: admin.firestore.FieldValue.arrayUnion(data.groupId),
         });
-        var groupData = (await groupDoc.get()).data();
+        groupData = (await groupDoc.get()).data();
         if (groupData.users && groupData.users.length > 0) {
             var usersExpanded = [];
             /* eslint-disable no-await-in-loop */
