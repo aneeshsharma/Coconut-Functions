@@ -3,7 +3,7 @@ content-type: application/json
 
 {
     "data": {
-        "uid": "test5",
+        "uid": "test3",
         "name": "Test User 4",
         "upiId": "test4@nobank",
         "email": "test4@example.com"
@@ -70,10 +70,10 @@ content-type: application/json
 
 {
     "data": {
-        "groupId": "magjXo3uE7F3Utz6uIVj",
+        "groupId": "pwZiUyFqvECPSYBfEItR",
         "transaction": {
-            "spender": "test1",
-            "amount": "233"
+            "spender": "test2",
+            "amount": "134"
         }
     }
 }
@@ -85,7 +85,7 @@ Content-Type: application/json
 
 {
     "data": {
-        "groupId": "magjXo3uE7F3Utz6uIVj"
+        "groupId": "pwZiUyFqvECPSYBfEItR"
     }
 }
 
@@ -96,6 +96,6 @@ Content-Type: application/json
 
 {
     "data": {
-        "groupId": "kaMqQPNHtkLOrVGMlLYe"
+        "groupId": "pwZiUyFqvECPSYBfEItR"
     }
 }

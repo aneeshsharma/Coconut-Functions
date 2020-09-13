@@ -36,7 +36,6 @@ const joinGroup = functions.https.onCall(async (data, context) => {
             /* eslint-enable no-await-in-loop */
             groupData.users = usersExpanded;
         }
-        groupData.groupId = data.groupId;
         return groupData;
     } catch (e) {
         throw new functions.https.HttpsError("internal", e.message);

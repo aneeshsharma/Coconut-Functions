@@ -39,7 +39,6 @@ const getUser = functions.https.onCall(async (data, context) => {
                     }
                     groupData.users = usersExpanded;
                 }
-                groupData.groupId = groupId;
                 groupsExpanded.push(groupData);
             }
             userData.groups = groupsExpanded;

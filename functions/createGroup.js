@@ -23,7 +23,8 @@ const createVisit = functions.https.onCall(async (data, context) => {
             users: data.users,
             credits: creds,
         });
-        console.log(groupDoc.id);
+        const groupId = groupDoc.id;
+        console.log(groupId);
         // add group to all users
         const userDocUpdates = data.users.map((userId) => {
             return db.doc(`users/${userId}`).update({
@@ -31,7 +32,11 @@ const createVisit = functions.https.onCall(async (data, context) => {
             });
         });
         await Promise.all(userDocUpdates);
-        return groupDoc.id;
+
+        await db.doc(`group/${groupId}`).update({
+            groupId: groupId,
+        });
+        return (await db.doc(`group/${groupId}`).get()).data();
     } catch (e) {
         throw new functions.https.HttpsError("internal", e.message);
     }
